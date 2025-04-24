@@ -24,4 +24,4 @@ if [ ! -z "$SERVICE" ]; then
     done
 fi
 
-docker-compose --verbose -f $DOCKER_FILES up
+docker-compose -f $DOCKER_FILES up
