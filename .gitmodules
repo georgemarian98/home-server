@@ -1,0 +1,3 @@
+[submodule "movie-backlog"]
+	path = movie-backlog
+	url = https://github.com/georgemarian98/MovieBacklog.git
