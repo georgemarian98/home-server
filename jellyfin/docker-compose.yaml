@@ -1,1 +1,17 @@
 version: '3.7'
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    restart: 'unless-stopped'
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - $NAS/Media:/media
+    ports:
+      - 8096:8096
