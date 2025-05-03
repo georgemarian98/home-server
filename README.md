@@ -10,14 +10,14 @@ git clone --recursive https://github.com/georgemarian98/home-server.git
 ```
 
 # TODO:
-- [ ] Make sure that the `start_services.sh` script works when creating all the containers
-- [ ] Use encryption for all services (HTTPS)
+- [ ] Use encryption for all services (HTTPS) - Traefik
 - [ ] Python script for CLI hardware stats
 - [ ] password manager - if it's good (bitwarden, vaultwarden)
 - [ ] Google Photo replacement (Immich, photoprism, nextcloud, filecloud, opencloud)
 - [ ] Filebrowser
 - [ ] Torrent (jellyseerr, sonarr, radaar, overseer, lidarr, transmission, etc)
 - [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list
+- [ ] Polish docker compose files
 - [ ] Steam cache - maybe if it's playable offline and upgrade server size
 - [ ] Monitoring resources (netdata)
 - [ ] Watchtower

@@ -6,6 +6,7 @@ services:
     image: portainer/portainer-ce:alpine
     command: -H unix:///var/run/docker.sock
     restart: unless-stopped
+    pull_policy: always
     ports:
       - "9000:9000"
     volumes:

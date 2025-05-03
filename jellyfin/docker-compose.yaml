@@ -5,6 +5,7 @@ services:
     image: jellyfin/jellyfin
     container_name: jellyfin
     restart: 'unless-stopped'
+    pull_policy: always
     environment:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}

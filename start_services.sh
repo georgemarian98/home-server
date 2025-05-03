@@ -1,22 +1,31 @@
 #!/bin/bash
 
-DOCKER_FILES=$(find -name "docker-compose.yaml" -type f)
-echo "Services: "
-echo "$DOCKER_FILES" | awk -F/ '{ printf "    %s\n", $2 }'
+usage()
+{
+    printf "Usage: $0 -r -f <DOCKER_SERVICE_NAME>
+    -r - Remove the service(s)
+    -f - Start/Remove just a specific service\n"
+    exit 1
+}
 
 SERVICE=""
-while getopts "f:" arg;
+REMOVE=""
+while getopts "f:r" arg;
 do
     case $arg in
         f) SERVICE=$OPTARG ;;
+        r) REMOVE="true" ;;
+        *) usage
     esac
 done
 
-if [ ! -z "$SERVICE" ]; then
-    # use grep instead, it's more readable
+DOCKER_FILES=$(find  -name "docker-compose.yaml" -type f)
+
+if [ ! -z "$SERVICE" ]; 
+then
     for file in $DOCKER_FILES;
     do
-        if [[ "$file" == *"$SERVICE"* ]];
+        if [[ "$file" == *"$SERVICE"* ]]; 
         then
             DOCKER_FILES=$file
             break
@@ -24,4 +33,16 @@ if [ ! -z "$SERVICE" ]; then
     done
 fi
 
-docker-compose -f $DOCKER_FILES up
+echo "Services: "
+for file in $DOCKER_FILES;
+do
+    SERVICE_NAME=$(basename $(dirname $file))
+    if [ ! -z "$REMOVE" ]; 
+    then
+        docker-compose -f $file --env-file ./.env -- down
+    else
+        docker-compose -f $file --env-file ./.env -- pull
+        docker-compose -f $file --env-file ./.env -- up -d
+    fi
+    echo "---------------------------------------------------"
+done
