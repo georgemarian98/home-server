@@ -10,8 +10,6 @@ git clone --recursive https://github.com/georgemarian98/home-server.git
 ```
 
 # TODO:
-- [ ] Use encryption for all services (HTTPS) - Traefik
-- [ ] Python script for CLI hardware stats
 - [ ] password manager - if it's good (bitwarden, vaultwarden)
 - [ ] Google Photo replacement (Immich, photoprism, nextcloud, filecloud, opencloud)
 - [ ] Filebrowser
