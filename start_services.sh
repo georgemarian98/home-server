@@ -19,7 +19,7 @@ do
     esac
 done
 
-DOCKER_FILES=$(find  -name "docker-compose.yaml" -type f)
+DOCKER_FILES=$(find -maxdepth 2 -name "docker-compose.yaml" -type f)
 
 if [ ! -z "$SERVICE" ]; 
 then
