@@ -10,13 +10,11 @@ git clone --recursive https://github.com/georgemarian98/home-server.git
 ```
 
 # TODO:
-- [ ] Google Photo replacement (Immich, photoprism, nextcloud, filecloud, opencloud)
-- [ ] Bash script: allow each service to have a env file ( if possible)
-- [ ] password manager - if it's good (bitwarden, vaultwarden)
-- [ ] Filebrowser
 - [ ] Torrent (jellyseerr, sonarr, radaar, overseer, lidarr, transmission, etc)
 - [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list
 - [ ] Polish docker compose files, volumes, network, etc and moviebacklog and immich both use postgres, maybe we can use the same container
+- [ ] password manager - if it's good (bitwarden, vaultwarden)
+- [ ] Filebrowser
 - [ ] Steam cache - maybe if it's playable offline and upgrade server size
 - [ ] Monitoring resources (netdata)
 - [ ] Watchtower

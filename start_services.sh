@@ -2,10 +2,11 @@
 
 usage()
 {
-    printf "Usage: $0 -c <NEW_SERVICE_NAME> -r -f <DOCKER_SERVICE_NAME>
+    printf "Usage: $0 -c <NEW_SERVICE_NAME> -r -f <DOCKER_SERVICE_NAME> -d
     -c - Create a new folder with the README and the docker compose file for the new service
     -r - Remove the service(s)
-    -f - Start/Remove just a specific service\n"
+    -f - Start/Remove just a specific service
+    -d - Debug mode\n"
     exit 1
 }
 
@@ -21,42 +22,45 @@ create_new_service()
 main()
 {
     local DOCKER_FILES=$(find -maxdepth 2 -name "docker-compose.yaml" -type f)
-
     if [ ! -z "$SERVICE" ]; 
     then
-        for file in $DOCKER_FILES;
-        do
-            if [[ "$file" == *"$SERVICE"* ]]; 
-            then
-                DOCKER_FILES=$file
-                break
-            fi
-        done
+        DOCKER_FILES=$(echo "$DOCKER_FILES" | grep $SERVICE)
     fi
 
     echo "Services: "
+    [ ! -z "$DEBUG" ] && echo $DOCKER_FILES
+
     for file in $DOCKER_FILES;
     do
-        local SERVICE_NAME=$(basename $(dirname $file))
+        local SERVICE_DIRECTORY=$(dirname $file)
+
+        # Merge the env files
+        cat ./.env > ./.env_merged
+        [ -f "$SERVICE_DIRECTORY/.env" ] && cat $SERVICE_DIRECTORY/.env >> ./.env_merged
+
         if [ ! -z "$REMOVE" ]; 
         then
-            docker-compose -f $file --env-file ./.env -- down
+            docker-compose -f $file --env-file ./.env_merged -- down
         else
-            docker-compose -f $file --env-file ./.env -- pull
-            docker-compose -f $file --env-file ./.env -- up -d
+            docker-compose -f $file --env-file ./.env_merged -- pull
+            docker-compose -f $file --env-file ./.env_merged -- up -d
         fi
         echo "---------------------------------------------------"
+
+        [ -z "$DEBUG" ] && rm ./.env_merged
     done
 }
 
 SERVICE=""
 REMOVE=""
-while getopts "c:f:r" arg;
+DEBUG=""
+while getopts "c:f:rd" arg;
 do
     case $arg in
         c) create_new_service $OPTARG ;;
         f) SERVICE=$OPTARG ;;
         r) REMOVE="true" ;;
+        d) DEBUG="true" ;;
         *) usage
     esac
 done
