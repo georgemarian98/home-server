@@ -16,8 +16,9 @@ git clone --recursive https://github.com/georgemarian98/home-server.git
 - [ ] password manager - if it's good (bitwarden, vaultwarden)
 - [ ] Filebrowser
 - [ ] Steam cache - maybe if it's playable offline and upgrade server size
-- [ ] Monitoring resources (netdata)
+- [ ] Monitoring resources (netdata, grafana, prometheus)
 - [ ] Watchtower
 - [ ] Unattended updates
 - [ ] SECURITY, FIREWALL
 - [ ] Remote access - vpn, twingate/tailscale?, cloudfare, pangolin - more research
+- [ ] Backup to another server (syncthing?)
