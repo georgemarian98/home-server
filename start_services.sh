@@ -16,6 +16,7 @@ create_new_service()
     mkdir ./$SERVICE_NAME
     printf "# ${SERVICE_NAME^}\n" > ./$SERVICE_NAME/README.md
     printf "version: '3.7'\n" > ./$SERVICE_NAME/docker-compose.yaml
+    touch "./$SERVICE_NAME/.gitignore"
     exit 0
 }
 
