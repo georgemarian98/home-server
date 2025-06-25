@@ -11,6 +11,18 @@ git clone --recursive https://github.com/georgemarian98/home-server.git
 
 Don't forget to set the variables in .env file.
 
+# Media server
+The folder structure for entertainment media. This structure is used by Jellyfin, QBitTorrent, prowlarr, radarr, etc.
+```
+Entertainment
+│── qbittorrent
+│   ├── completed
+│   ├── incomplete
+│── media
+    ├── movies
+    ├── shows
+```
+
 # TODO:
 - [ ] Torrent (jellyseerr, sonarr, radaar, overseer, lidarr, transmission, etc)
 - [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list
