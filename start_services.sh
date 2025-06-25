@@ -37,6 +37,7 @@ main()
 
         # Merge the env files
         cat ./.env > ./.env_merged
+        echo "" >> ./.env_merged
         [ -f "$SERVICE_DIRECTORY/.env" ] && cat $SERVICE_DIRECTORY/.env >> ./.env_merged
 
         if [ ! -z "$REMOVE" ]; 
