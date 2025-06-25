@@ -9,6 +9,8 @@ Clone the repository:
 git clone --recursive https://github.com/georgemarian98/home-server.git
 ```
 
+Don't forget to set the variables in .env file.
+
 # TODO:
 - [ ] Torrent (jellyseerr, sonarr, radaar, overseer, lidarr, transmission, etc)
 - [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list

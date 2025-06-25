@@ -13,6 +13,6 @@ services:
     volumes:
       - ./config:/config
       - ./cache:/cache
-      - $NAS/Media:/media
+      - ${ENTERTAINMENT_DIR}/media:/media
     ports:
       - 8096:8096
