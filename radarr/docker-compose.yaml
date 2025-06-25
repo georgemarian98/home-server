@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  # Radarr - https://hotio.dev/containers/radarr/
+  radarr:
+    container_name: radarr
+    image: ghcr.io/hotio/radarr:latest
+    restart: unless-stopped    
+    pull_policy: always
+    ports:
+      - 7878:7878
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - TZ=${TZ}
+      - UMASK=002
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./radarr:/config
+      - ${ENTERTAINMENT_DIR}:/data
