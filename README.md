@@ -12,7 +12,7 @@ git clone --recursive https://github.com/georgemarian98/home-server.git
 Don't forget to set the variables in .env file.
 
 # Media server
-The folder structure for entertainment media. This structure is used by Jellyfin, QBitTorrent, prowlarr, radarr, etc.
+The folder structure for entertainment media. This structure is used by Jellyfin, QBittorrent, prowlarr, radarr, etc.
 ```
 Entertainment
 │── qbittorrent
@@ -24,7 +24,7 @@ Entertainment
 ```
 
 # TODO:
-- [ ] Torrent (jellyseerr, sonarr, radaar, overseer, lidarr, transmission, etc)
+- [ ] Automated media management (jellyseerr/overseer, lidarr, huntarr etc)
 - [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list
 - [ ] Polish docker compose files, volumes, network, etc and moviebacklog and immich both use postgres, maybe we can use the same container
 - [ ] password manager - if it's good (bitwarden, vaultwarden)
