@@ -36,3 +36,8 @@ Entertainment
 - [ ] SECURITY, FIREWALL
 - [ ] Remote access - vpn, twingate/tailscale?, cloudfare, pangolin - more research
 - [ ] Backup to another server (syncthing?)
+
+# Hardware:
+- [ ] [Aoostart GEM10](https://aoostar.com/products/aoostar-gem10-amd-ryzen-7-7840hs-mini-pc-with-win-11-pro-3-nvme-oculink-2-2-5g-lan?variant=47708556755242)
+- [ ] [HDD enclousures with oculink support](https://www.servercase.co.uk/shop/components/hot-swap-drive-enclosures/in-win-iw-sk35-07---5x-35-nvmesassata-hdd-in-3x-525-bay-hot-swap-module---oculink-connection-iw-sk35-07/)
+- [ ] 3 HDDs 10TB
