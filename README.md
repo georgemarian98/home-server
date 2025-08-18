@@ -24,11 +24,24 @@ Entertainment
 ```
 
 # TODO:
-- [ ] Automated media management (jellyseerr/overseer, lidarr, huntarr etc)
-- [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list
+- [x] Portforward from router to pihole 
+- [x] Pi-hole DNS server 
+- [x] Update READMEs 
+- [x] Make sure that the start_services.sh script works when creating all the containers
+- [x] generate ssh key for log ing
+- [x] Update READMEs
+- [x] Make sure that the `start_services.sh` script works when creating all the containers
+- [x] Python script for CLI hardware stats
+- [x] Google Photo replacement (Immich, photoprism)
+- [x] Use encryption for all services (HTTPS)
+- [x] Bash script: allow each service to have a env file ( if possible)
+- [x] Automated media management (jellyseerr/overseer, lidarr, huntarr etc)
 - [ ] Polish docker compose files, volumes, network, etc and moviebacklog and immich both use postgres, maybe we can use the same container
+- [ ] Investigate the posibility to avoid exposing the container's port while being on the same network as the proxy manager and only exposing it via the proxy manager
+- [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list
+- [ ] Reseach another image repository that stores images in more of a manageable manner (Immich will store each image in a different folder, based on the hash and I don't like that, it make it harder to look at them outside of immich)
 - [ ] password manager - if it's good (bitwarden, vaultwarden)
-- [ ] Filebrowser
+- [ ] Filebrowser (nextcloud, filecloud, opencloud)
 - [ ] Steam cache - maybe if it's playable offline and upgrade server size
 - [ ] Monitoring resources (netdata, grafana, prometheus)
 - [ ] Watchtower
@@ -37,7 +50,17 @@ Entertainment
 - [ ] Remote access - vpn, twingate/tailscale?, cloudfare, pangolin - more research
 - [ ] Backup to another server (syncthing?)
 
+# Research
+- [ ] LXC proxmox containers, VMs vs Containers strategy
+- [ ] Proxmox
+- [ ] Truenas in Proxmox
+- [ ] ZFS
+
 # Hardware:
 - [ ] [Aoostart GEM10](https://aoostar.com/products/aoostar-gem10-amd-ryzen-7-7840hs-mini-pc-with-win-11-pro-3-nvme-oculink-2-2-5g-lan?variant=47708556755242)
 - [ ] [HDD enclousures with oculink support](https://www.servercase.co.uk/shop/components/hot-swap-drive-enclosures/in-win-iw-sk35-07---5x-35-nvmesassata-hdd-in-3x-525-bay-hot-swap-module---oculink-connection-iw-sk35-07/)
+or
+- [ ] [AOOSTAR WTR PRO AMD Ryzen 7 5825u 4 Bay Nas Mini PC](https://aoostar.com/products/aoostar-wtr-pro-4-bay-90t-storage-amd-ryzen-7-5825u-nas-mini-pc-support-2-5-3-5-hdd-%E5%A4%8D%E5%88%B6?variant=49223255195946)
+
 - [ ] 3 HDDs 10TB
+
