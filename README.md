@@ -57,7 +57,7 @@ Entertainment
 - [ ] ZFS
 
 # Hardware:
-- [ ] [Aoostart GEM10](https://aoostar.com/products/aoostar-gem10-amd-ryzen-7-7840hs-mini-pc-with-win-11-pro-3-nvme-oculink-2-2-5g-lan?variant=47708556755242)
+- [ ] [Aoostart GEM12](https://aoostar.com/products/aoostar-gem12-amd-ryzen-9-6900hx-mini-pc-with-16-32g-ddr5-ram-512g-1t-pcle-4-0-ssd-win-11-pro-2-nvme-oculink-2-2-5g-lan-non-screened-version?srsltid=AfmBOoqbtIPhEyy-Pif7RFulR1Xfnz5KNT1_f9Z3VNtgcfXN8BDI5Cjy)
 - [ ] [HDD enclousures with oculink support](https://www.servercase.co.uk/shop/components/hot-swap-drive-enclosures/in-win-iw-sk35-07---5x-35-nvmesassata-hdd-in-3x-525-bay-hot-swap-module---oculink-connection-iw-sk35-07/)
 or
 - [ ] [AOOSTAR WTR PRO AMD Ryzen 7 5825u 4 Bay Nas Mini PC](https://aoostar.com/products/aoostar-wtr-pro-4-bay-90t-storage-amd-ryzen-7-5825u-nas-mini-pc-support-2-5-3-5-hdd-%E5%A4%8D%E5%88%B6?variant=49223255195946)
