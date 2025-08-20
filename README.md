@@ -55,6 +55,7 @@ Entertainment
 - [ ] Proxmox
 - [ ] Truenas in Proxmox
 - [ ] ZFS
+- [ ] Wake on LAN
 
 # Hardware:
 - [ ] [Aoostart GEM12](https://aoostar.com/products/aoostar-gem12-amd-ryzen-9-6900hx-mini-pc-with-16-32g-ddr5-ram-512g-1t-pcle-4-0-ssd-win-11-pro-2-nvme-oculink-2-2-5g-lan-non-screened-version?srsltid=AfmBOoqbtIPhEyy-Pif7RFulR1Xfnz5KNT1_f9Z3VNtgcfXN8BDI5Cjy)
