@@ -7,8 +7,9 @@ services:
     image: ghcr.io/hotio/prowlarr:latest
     restart: unless-stopped    
     pull_policy: always
-    ports:
-      - 9696:9696 
+    # Port will be proxied by nginx, so no need to expose it here
+    # ports:
+    #   - 9696:9696 
     environment:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
@@ -16,3 +17,9 @@ services:
       - UMASK=002
     volumes:
       - ./prowlarr:/config
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    external: true

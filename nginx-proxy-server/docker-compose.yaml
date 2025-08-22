@@ -25,3 +25,9 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    external: true

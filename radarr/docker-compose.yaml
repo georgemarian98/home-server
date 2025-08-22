@@ -7,8 +7,9 @@ services:
     image: ghcr.io/hotio/radarr:latest
     restart: unless-stopped    
     pull_policy: always
-    ports:
-      - 7878:7878
+    # Port will be proxied by nginx, so no need to expose it here
+    # ports:
+    #   - 7878:7878
     environment:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
@@ -18,3 +19,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./radarr:/config
       - ${ENTERTAINMENT_DIR}:/data
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    external: true

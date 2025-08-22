@@ -20,8 +20,17 @@ create_new_service()
     exit 0
 }
 
+init_homelab()
+{
+    # Create the networks if they don't exist
+    docker network inspect frontend >/dev/null 2>&1 || docker network create frontend
+    docker network inspect backend >/dev/null 2>&1 || docker network create backend
+}
+
 main()
 {
+    init_homelab
+    
     local DOCKER_FILES=$(find -maxdepth 2 -name "docker-compose.yaml" -type f)
     if [ ! -z "$SERVICE" ]; 
     then

@@ -11,8 +11,9 @@ services:
       - PGID=${GROUP_ID}
       - TZ=${TZ}
       - WEBUI_PORT=8100
-    ports:
-      - 8100:8100
+    # Port will be proxied by nginx, so no need to expose it here
+    # ports:
+    #   - 8100:8100
     volumes:
       - ./qbittorrent:/config
       - ${DOWNLOAD_DIR}:/data
@@ -22,3 +23,9 @@ services:
       retries: 3
       start_period: 20s
       timeout: 10s
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    external: true
