@@ -13,6 +13,12 @@ usage()
 create_new_service()
 {
     local SERVICE_NAME=$1
+    ls $SERVICE_NAME &> /dev/null
+    if [ $? -eq 0 ];
+    then
+        echo "The service '$SERVICE_NAME' already exists"
+        exit 1
+    fi
     mkdir ./$SERVICE_NAME
     printf "# ${SERVICE_NAME^}\n" > ./$SERVICE_NAME/README.md
     printf "version: '3.7'\n" > ./$SERVICE_NAME/docker-compose.yaml
