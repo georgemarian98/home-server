@@ -53,6 +53,7 @@ Entertainment
 - [ ] SECURITY, FIREWALL
 - [ ] Remote access - vpn, twingate/tailscale?, cloudfare, pangolin - more research
 - [ ] Backup to another server (syncthing?)
+- [ ] KVM?
 
 # Research
 - [ ] LXC proxmox containers, VMs vs Containers strategy
@@ -66,6 +67,10 @@ Entertainment
 - [ ] [HDD enclousures with oculink support](https://www.servercase.co.uk/shop/components/hot-swap-drive-enclosures/in-win-iw-sk35-07---5x-35-nvmesassata-hdd-in-3x-525-bay-hot-swap-module---oculink-connection-iw-sk35-07/)
 or
 - [ ] [AOOSTAR WTR PRO AMD Ryzen 7 5825u 4 Bay Nas Mini PC](https://aoostar.com/products/aoostar-wtr-pro-4-bay-90t-storage-amd-ryzen-7-5825u-nas-mini-pc-support-2-5-3-5-hdd-%E5%A4%8D%E5%88%B6?variant=49223255195946)
+or
+- [ ] [Minisforum N5 Desktop NAS](https://minisforumpc.eu/products/minisforum-n5-desktop-nas)
+or
+- [ ] [Zima Cube](https://www.zimaspace.com/products/cube-personal-cloud#specs) - idk pretty pricey
 
 - [ ] 3 HDDs 10TB
 
