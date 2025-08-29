@@ -41,9 +41,9 @@ Entertainment
 - [x] Automated media management (jellyseerr/overseer, lidarr, huntarr etc)
 - [x] Polish docker compose files, volumes, network, etc and moviebacklog and immich both use postgres, maybe we can use the same container
 - [x] Investigate the posibility to avoid exposing the container's port while being on the same network as the proxy manager and only exposing it via the proxy manager
-- [ ] Extend the start script to be able to handle multiple services
+- [x] Extend the start script to be able to handle multiple services
 - [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list
-- [ ] Reseach another image repository that stores images in more of a manageable manner (Immich will store each image in a different folder, based on the hash and I don't like that, it make it harder to look at them outside of immich)
+- [x] Reseach another image repository that stores images in more of a manageable manner (Immich will store each image in a different folder, based on the hash and I don't like that, it make it harder to look at them outside of immich)
 - [ ] password manager - if it's good (bitwarden, vaultwarden)
 - [ ] Filebrowser (nextcloud, filecloud, opencloud)
 - [ ] Steam cache - maybe if it's playable offline and upgrade server size

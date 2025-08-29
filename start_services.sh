@@ -38,9 +38,9 @@ main()
     init_homelab
     
     local DOCKER_FILES=$(find -maxdepth 2 -name "docker-compose.yaml" -type f)
-    if [ ! -z "$SERVICE" ]; 
+    if [ ! -z "$SERVICES" ];
     then
-        DOCKER_FILES=$(echo "$DOCKER_FILES" | grep $SERVICE)
+        DOCKER_FILES=$(echo "$DOCKER_FILES" | grep -E "/($SERVICES)/docker-compose.yaml$")
     fi
 
     echo "Services: "
@@ -68,14 +68,14 @@ main()
     done
 }
 
-SERVICE=""
+SERVICES=""
 REMOVE=""
 DEBUG=""
 while getopts "c:f:rd" arg;
 do
     case $arg in
         c) create_new_service $OPTARG ;;
-        f) SERVICE=$OPTARG ;;
+        f) SERVICES="$SERVICES|$OPTARG" ;;
         r) REMOVE="true" ;;
         d) DEBUG="true" ;;
         *) usage
