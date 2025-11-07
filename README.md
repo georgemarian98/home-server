@@ -42,10 +42,17 @@ Entertainment
 - [x] Polish docker compose files, volumes, network, etc and moviebacklog and immich both use postgres, maybe we can use the same container
 - [x] Investigate the posibility to avoid exposing the container's port while being on the same network as the proxy manager and only exposing it via the proxy manager
 - [x] Extend the start script to be able to handle multiple services
-- [ ] In the movie backlog app, make sure that the current user is shown correctly in the select list
+- [x] In the movie backlog app, make sure that the current user is shown correctly in the select list
+- [x] In the movie backlog app, when a media image is no longer available, update it.
+- [x] In the movie backlog app, fix workflow.
+- [x] In the movie backlog app, solve invalid API key error. Only replicable on docker linux
+- [ ] In the movie backlog app, use environment variables in appsettings.json.
+- [ ] Script to initialize a new machine with all my preferences and apps
 - [x] Reseach another image repository that stores images in more of a manageable manner (Immich will store each image in a different folder, based on the hash and I don't like that, it make it harder to look at them outside of immich)
 - [ ] password manager - if it's good (bitwarden, vaultwarden)
 - [ ] Filebrowser (nextcloud, filecloud, opencloud)
+- [ ] Glance dashboard
+- [ ] vert, zrok ? idk
 - [ ] Steam cache - maybe if it's playable offline and upgrade server size
 - [ ] Monitoring resources (netdata, grafana, prometheus)
 - [ ] Watchtower
@@ -56,21 +63,8 @@ Entertainment
 - [ ] KVM?
 
 # Research
-- [ ] LXC proxmox containers, VMs vs Containers strategy
+- [x] LXC proxmox containers, VMs vs Containers strategy
 - [ ] Proxmox
-- [ ] Truenas in Proxmox
+- [x] Truenas in Proxmox
 - [ ] ZFS
 - [ ] Wake on LAN
-
-# Hardware:
-- [ ] [Aoostart GEM12](https://aoostar.com/products/aoostar-gem12-amd-ryzen-9-6900hx-mini-pc-with-16-32g-ddr5-ram-512g-1t-pcle-4-0-ssd-win-11-pro-2-nvme-oculink-2-2-5g-lan-non-screened-version?srsltid=AfmBOoqbtIPhEyy-Pif7RFulR1Xfnz5KNT1_f9Z3VNtgcfXN8BDI5Cjy)
-- [ ] [HDD enclousures with oculink support](https://www.servercase.co.uk/shop/components/hot-swap-drive-enclosures/in-win-iw-sk35-07---5x-35-nvmesassata-hdd-in-3x-525-bay-hot-swap-module---oculink-connection-iw-sk35-07/)
-or
-- [ ] [AOOSTAR WTR PRO AMD Ryzen 7 5825u 4 Bay Nas Mini PC](https://aoostar.com/products/aoostar-wtr-pro-4-bay-90t-storage-amd-ryzen-7-5825u-nas-mini-pc-support-2-5-3-5-hdd-%E5%A4%8D%E5%88%B6?variant=49223255195946)
-or
-- [ ] [Minisforum N5 Desktop NAS](https://minisforumpc.eu/products/minisforum-n5-desktop-nas)
-or
-- [ ] [Zima Cube](https://www.zimaspace.com/products/cube-personal-cloud#specs) - idk pretty pricey
-
-- [ ] 3 HDDs 10TB
-
