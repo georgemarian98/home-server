@@ -46,12 +46,14 @@ Entertainment
 - [x] In the movie backlog app, when a media image is no longer available, update it.
 - [x] In the movie backlog app, fix workflow.
 - [x] In the movie backlog app, solve invalid API key error. Only replicable on docker linux
-- [ ] In the movie backlog app, use environment variables in appsettings.json.
+- [x] In the movie backlog app, use environment variables in appsettings.json
+- [x] In the movie backlog app, fix error for duplicate primary key upon insertion
 - [ ] Script to initialize a new machine with all my preferences and apps
 - [x] Reseach another image repository that stores images in more of a manageable manner (Immich will store each image in a different folder, based on the hash and I don't like that, it make it harder to look at them outside of immich)
 - [ ] password manager - if it's good (bitwarden, vaultwarden)
 - [ ] Filebrowser (nextcloud, filecloud, opencloud)
 - [ ] Glance dashboard
+- [ ] Notification service
 - [ ] vert, zrok ? idk
 - [ ] Steam cache - maybe if it's playable offline and upgrade server size
 - [ ] Monitoring resources (netdata, grafana, prometheus)
