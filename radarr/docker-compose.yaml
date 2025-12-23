@@ -1,4 +1,3 @@
-version: '3.7'
 
 services:
   # Radarr - https://hotio.dev/containers/radarr/

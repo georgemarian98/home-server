@@ -21,8 +21,8 @@ create_new_service()
     fi
     mkdir ./$SERVICE_NAME
     printf "# ${SERVICE_NAME^}\n" > ./$SERVICE_NAME/README.md
-    printf "version: '3.7'\n" > ./$SERVICE_NAME/docker-compose.yaml
-    touch "./$SERVICE_NAME/.gitignore"
+    touch ./$SERVICE_NAME/docker-compose.yaml
+    touch ./$SERVICE_NAME/.gitignore
     exit 0
 }
 
@@ -57,10 +57,10 @@ main()
 
         if [ ! -z "$REMOVE" ]; 
         then
-            docker-compose -f $file --env-file ./.env_merged -- down
+            docker compose -f $file --env-file ./.env_merged down
         else
-            docker-compose -f $file --env-file ./.env_merged -- pull
-            docker-compose -f $file --env-file ./.env_merged -- up -d
+            docker compose -f $file --env-file ./.env_merged pull
+            docker compose -f $file --env-file ./.env_merged up -d
         fi
         echo "---------------------------------------------------"
 
