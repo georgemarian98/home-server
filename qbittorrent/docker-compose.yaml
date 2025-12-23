@@ -9,7 +9,7 @@ services:
     environment:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
-      - TZ=${TZ}
+      - TZ=${TIMEZONE}
       - WEBUI_PORT=8100
     # Port will be proxied by nginx, so no need to expose it here
     # ports:
