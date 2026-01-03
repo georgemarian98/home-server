@@ -1,0 +1,25 @@
+---
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:3.6
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+
+      # Use only for testing purposes (Traefik dashboard)
+      # - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ${CONFIG_PATH}/traefik/conf/:/etc/traefik/conf/
+      - ${CONFIG_PATH}/traefik/certs/:/etc/traefik/certs/
+    environment:
+      - CF_DNS_API_TOKEN
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    external: true

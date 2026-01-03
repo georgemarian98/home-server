@@ -1,7 +1,7 @@
 
 services:
   obsidian:
-    image: lscr.io/linuxserver/obsidian:latest
+    image: lscr.io/linuxserver/obsidian:1.10.6
     container_name: obsidian
     restart: 'unless-stopped'
     pull_policy: always
@@ -11,8 +11,19 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${CONFIG_PATH}/obsidian/config:/config
-    #TODO: Remove exposed ports when a proper reverse proxy solution is implemented
-    ports:
-      - 3000:3000
-      - 3001:3001
+    # Port will be proxied by traefik, so no need to expose it here
+    # ports:
+    #   - 3000:3000
+    #   - 3001:3001
+    networks:
+      - frontend
+    labels:
+      - "traefik.http.routers.obsidian.rule=Host(`obsidian.rlgland.site`)"
+      - "traefik.http.routers.obsidian.entrypoints=websecure"
+      - "traefik.http.routers.obsidian.tls.certresolver=cloudflare"
+      - "traefik.http.services.obsidian.loadbalancer.server.port=3000"
     shm_size: "1gb"
+
+networks:
+  frontend:
+    external: true
