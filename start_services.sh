@@ -21,7 +21,28 @@ create_new_service()
     fi
     mkdir ./$SERVICE_NAME
     printf "# ${SERVICE_NAME^}\n" > ./$SERVICE_NAME/README.md
-    touch ./$SERVICE_NAME/docker-compose.yaml
+    
+    cat << EOF > ./$SERVICE_NAME/docker-compose.yaml
+
+services:
+  ${SERVICE_NAME}:
+    image: __SERVICE_IMAGE__ # Change to the service image
+    container_name: ${SERVICE_NAME}
+    restart: unless-stopped    
+    pull_policy: always
+    networks:
+      - frontend
+    labels:
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(\`${SERVICE_NAME}.rlgland.site\`)"
+      - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}.tls.certresolver=cloudflare"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=__SERVICE_PORT__" # Change to the internal port of the service
+
+networks:
+  frontend:
+    external: true
+EOF
+
     touch ./$SERVICE_NAME/.gitignore
     exit 0
 }
