@@ -13,8 +13,8 @@ services:
       - ${CONFIG_PATH}/obsidian/config:/config
     # Port will be proxied by traefik, so no need to expose it here
     # ports:
-    #   - 3000:3000
-    #   - 3001:3001
+    #   - 3000:3000 # Obsidian desktop gui HTTP, must be proxied.
+    #   - 3001:3001 # Obsidian desktop gui HTTPS.
     networks:
       - frontend
     labels:
