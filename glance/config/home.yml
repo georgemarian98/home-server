@@ -1,0 +1,197 @@
+- name: Home
+  # Optionally, if you only have a single page you can hide the desktop navigation for a cleaner look
+  # hide-desktop-navigation: true
+  columns:
+    - size: small
+      widgets:
+        - type: custom-api
+          title: Epic Games
+          cache: 12h
+          url: https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en&country=US&allowCountries=US
+          template: |
+            <div>
+              {{ if eq .Response.StatusCode 200 }}
+                <div class="horizontal-cards-2">
+                  {{ range .JSON.Array "data.Catalog.searchStore.elements" }}
+                    {{ $price := .String "price.totalPrice.discountPrice" }}
+                    {{ $hasPromo := gt (len (.Array "promotions.promotionalOffers")) 0 }}
+                    {{ if and $hasPromo (eq $price "0") }}
+                      {{ $gamePage := .String "productSlug" }}
+                      {{ if gt (len (.Array "offerMappings")) 0 }}
+                        {{ $gamePage = .String "offerMappings.0.pageSlug" }}
+                      {{end }}
+                      <a href="https://store.epicgames.com/en-US/p/{{ $gamePage }}" target="_blank" class="card">
+                        {{ $title := .String "title" }}
+                        {{ range .Array "keyImages" }}
+                          {{ if eq (.String "type") "OfferImageWide" }}
+                            <img src="{{ .String "url" }}" alt="{{ $title }}" style="width: 100%; max-width: 300px; height: 150px; object-fit: cover; border-radius: var(--border-radius);">
+                          {{ end }}
+                        {{ end }}
+                        <div class="card-content">
+                          <span class="size-base color-primary">{{ $title }}</span><br>
+                          <span class="size-h5 color-subdue">
+                            {{ if $hasPromo }}
+                              {{ $promotions := .Array "promotions.promotionalOffers" }}
+                              {{ if gt (len $promotions) 0 }}
+                                {{ $firstPromo := index $promotions 0 }}
+                                {{ $offers := $firstPromo.Array "promotionalOffers" }}
+                                {{ if gt (len $offers) 0 }}
+                                  {{ $firstOffer := index $offers 0 }}
+                                  Free until {{ slice ($firstOffer.String "endDate") 0 10 }}
+                                {{ else }}
+                                  Free this week!
+                                {{ end }}
+                              {{ else }}
+                                Free this week!
+                              {{ end }}
+                            {{ end }}
+                          </span>
+                        </div>
+                      </a>
+                    {{ end }}
+                  {{ end }}
+                </div>
+              {{ else }}
+                <p class="color-negative">Error fetching Epic Games data.</p>
+              {{ end }}
+            </div>
+
+        - type: custom-api
+          title: Steam Specials
+          cache: 12h
+          url: https://store.steampowered.com/api/featuredcategories?cc=us
+          template: |
+            <ul class="list list-gap-10 collapsible-container" data-collapse-after="5">
+            {{ range .JSON.Array "specials.items" }}
+              <li>
+                <a class="size-h4 color-highlight block text-truncate" href="https://store.steampowered.com/app/{{ .Int "id" }}/">{{ .String "name" }}</a>
+                <ul class="list-horizontal-text">
+                  <li>{{ div (.Int "final_price" | toFloat) 100 | printf "$%.2f" }}</li>
+                  {{ $discount := .Int "discount_percent" }}
+                  <li{{ if ge $discount 40 }} class="color-positive"{{ end }}>{{ $discount }}% off</li>
+                </ul>
+              </li>
+            {{ end }}
+            </ul>
+
+        - type: markets
+          markets:
+            - symbol: SPY
+              name: S&P 500
+            - symbol: IVV
+              name: S&P 500 ETF
+            - symbol: NVDA
+              name: NVIDIA
+            - symbol: AAPL
+              name: Apple
+            - symbol: MSFT
+              name: Microsoft
+
+    - size: full
+      widgets:
+        - type: search
+          search-engine: google
+          autofocus: true
+          bangs:
+            - title: YouTube
+              shortcut: "!yt"
+              url: https://www.youtube.com/results?search_query={QUERY}
+
+        - type: monitor
+          cache: 1m
+          title: Services
+          sites:
+            - title: Proxmox VE
+              url: http://192.168.101.53:8006
+              icon: di:proxmox
+              allow-insecure: true # Not needed after used via traefik
+            - title: TrueNAS
+              url: http://192.168.101.58
+              icon: di:truenas
+              allow-insecure: true # Not needed after used via traefik
+            - title: RaspberryPI
+              url: http://192.168.101.20
+              icon: /assets/raspberry-pi.png
+            - title: Obsidian
+              url: https://obsidian.rlgland.site
+              icon: di:obsidian
+            - title: Portainer
+              url: https://portainer.rlgland.site
+              icon: di:portainer
+
+        - type: group
+          widgets:
+            - type: server-stats
+              servers:
+                - type: local
+                  name: Server
+                  hide-mountpoints-by-default: true
+                  mountpoints:
+                    "/":
+                      hide: false
+                    # "/nfs/homelab_share":
+                    #   hide: false
+
+            - type: dns-stats
+              service: pihole-v6
+              url: https://${PIHOLE_ADDRESS}
+              password: ${PIHOLE_PASS}
+              hour-format: 24h
+              allow-insecure: true
+
+        - type: videos
+          title: YouTube
+          title-url: https://www.youtube.com
+          channels:
+            - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
+            - UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
+            - UCZNhwA1B5YqiY1nLzmM0ZRg # Christian Lempa
+            - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+            - UC9x0AN7BWHpCDHSm9NiJFJQ # NetworkChuck
+
+        - type: group
+          widgets:
+            - type: reddit
+              subreddit: technology
+              show-thumbnails: true
+            - type: reddit
+              subreddit: selfhosted
+              show-thumbnails: true
+
+    - size: small
+      widgets:
+        - type: calendar
+          first-day-of-week: monday
+
+        - type: weather
+          location: Oradea, Romania
+          units: metric
+          hour-format: 24h
+
+        - type: to-do
+        
+        - type: bookmarks
+          groups:
+            - links:
+              - title: FileList
+                url: https://filelist.io/login.php?returnto=%2F
+              - title: ChatGPT
+                url: https://chat.com
+              - title: GitHub
+                url: https://github.com
+
+            - title: Social
+              color: 200 50 50
+              links:
+                - title: Facebook
+                  url: https://www.facebook.com
+                - title: Twitch
+                  url: https://www.twitch.tv/creativemonkeyz
+                - title: YouTube
+                  url: https://www.youtube.com
+
+            - title: Other
+              links:
+                - title: Router
+                  url: http://192.168.101.1
+

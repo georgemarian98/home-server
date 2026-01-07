@@ -1,0 +1,27 @@
+
+services:
+  glance:
+    image: glanceapp/glance
+    container_name: glance
+    restart: unless-stopped    
+    pull_policy: always
+    # Service's port is exposed via traefik
+    # ports:
+    #   - 8080:8080
+    volumes:
+      - ./config:/app/config
+      - ./assets:/app/assets
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    env_file: ".env"
+    networks:
+      - frontend
+    labels:
+      - "traefik.http.routers.glance.rule=Host(`glance.rlgland.site`)"
+      - "traefik.http.routers.glance.entrypoints=websecure"
+      - "traefik.http.routers.glance.tls.certresolver=cloudflare"
+      - "traefik.http.services.glance.loadbalancer.server.port=8080"
+
+networks:
+  frontend:
+    external: true
