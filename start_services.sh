@@ -78,10 +78,10 @@ main()
 
         if [ ! -z "$REMOVE" ]; 
         then
-            docker compose -f $file --env-file ./.env_merged down
+           $DOCKER_COMPOSE_CMD -f $file --env-file ./.env_merged down
         else
-            docker compose -f $file --env-file ./.env_merged pull
-            docker compose -f $file --env-file ./.env_merged up -d
+            $DOCKER_COMPOSE_CMD -f $file --env-file ./.env_merged pull
+            $DOCKER_COMPOSE_CMD -f $file --env-file ./.env_merged up -d
         fi
         echo "---------------------------------------------------"
 
@@ -102,5 +102,11 @@ do
         *) usage
     esac
 done
+
+DOCKER_COMPOSE_CMD="docker-compose"
+if ! command -v $DOCKER_COMPOSE_CMD >/dev/null 2>&1
+then
+    DOCKER_COMPOSE_CMD="docker compose"
+fi
 
 main
