@@ -9,6 +9,7 @@ Second in Cloudflare I added 2 records:
 After that you need the API token from Cloudflare and put it in .env file for CF_DNS_API_TOKEN variable.
 In the end you can start reverse proxy your services with the following labels to each service:
 ```
+- "traefik.enable=true"
 - "traefik.http.routers.obsidian.rule=Host(`<SUBDOMAIN>.<DOMAIN>`)"
 - "traefik.http.routers.obsidian.entrypoints=websecure"
 - "traefik.http.routers.obsidian.tls.certresolver=cloudflare"

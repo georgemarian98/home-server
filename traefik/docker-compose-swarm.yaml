@@ -1,0 +1,51 @@
+---
+services:
+  traefik:
+    image: traefik:3.6
+    ports:
+      - 80:80
+      - 443:443
+
+      # Use only for testing purposes (Traefik dashboard)
+      # - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-certs:/etc/traefik/certs/
+    configs:
+      - source: traefik-config
+        target: /etc/traefik/traefik.yaml
+      - source: traefik-middlewares
+        target: /etc/traefik/files/middlewares.yaml
+      - source: traefik-routers
+        target: /etc/traefik/files/routers.yaml
+      - source: traefik-services
+        target: /etc/traefik/files/services.yaml
+    environment:
+      - TZ=${TIMEZONE}
+      - CF_DNS_API_TOKEN
+    networks:
+      - frontend-swarm
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == raspberrypi
+      restart_policy:
+        condition: on-failure
+
+networks:
+  frontend-swarm:
+    external: true
+
+volumes:
+  traefik-certs:
+
+configs:
+  traefik-config:
+    file: ./config/traefik-swarm.yaml
+  traefik-middlewares:
+    file: ./config/middlewares.yaml
+  traefik-routers:
+    file: ./config/routers.yaml
+  traefik-services:
+    file: ./config/services.yaml

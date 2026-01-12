@@ -1,0 +1,49 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+accessLog: {}
+
+log:
+  level: DEBUG
+
+api:
+  dashboard: true
+  insecure: true
+  debug: false
+
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: :443
+
+certificatesResolvers:
+  cloudflare:
+    acme:
+      email: "georgemarian98@gmail.com"
+      storage: /etc/traefik/certs/cloudflare-acme.json
+      caServer: 'https://acme-v02.api.letsencrypt.org/directory'
+      keyType: EC256
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+
+serversTransport:
+  insecureSkipVerify: true
+
+providers:
+  swarm:
+    exposedByDefault: false
+    endpoint: 'unix:///var/run/docker.sock'
+    network: frontend-swarm
+  file:
+    directory: /etc/traefik/files
+    watch: true
