@@ -1,0 +1,34 @@
+
+services:
+  glance:
+    image: glanceapp/glance
+    # Service's port is exposed via traefik
+    # ports:
+    #   - 8080:8080
+    volumes:
+      - ./config:/app/config
+      - ./assets:/app/assets
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - PIHOLE_PASS
+      - PIHOLE_ADDRESS
+    networks:
+      - frontend-swarm
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == ${HOSTNAME}
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.glance.rule=Host(`glance.rlgland.site`)"
+        - "traefik.http.routers.glance.entrypoints=websecure"
+        - "traefik.http.routers.glance.tls.certresolver=cloudflare"
+        - "traefik.http.services.glance.loadbalancer.server.port=8080"
+
+networks:
+  frontend-swarm:
+    external: true

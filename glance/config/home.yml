@@ -109,12 +109,9 @@
               url: http://192.168.101.58
               icon: di:truenas
               allow-insecure: true # Not needed after used via traefik
-            - title: RaspberryPI
-              url: http://192.168.101.20
-              icon: /assets/raspberry-pi.png
-            - title: Obsidian
-              url: https://obsidian.rlgland.site
-              icon: di:obsidian
+            # - title: RaspberryPI
+            #   url: http://192.168.101.20
+            #   icon: /assets/raspberry-pi.png
             - title: Portainer
               url: https://portainer.rlgland.site
               icon: di:portainer
@@ -129,7 +126,7 @@
                   mountpoints:
                     "/":
                       hide: false
-                    # "/nfs/homelab_share":
+                    # "/nfs/homelab_share": # the nfs share needs to be mounted
                     #   hide: false
 
             - type: dns-stats
