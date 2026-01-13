@@ -6,6 +6,7 @@ usage()
     -c - Create a new folder with the README and the docker compose file for the new service
     -r - Remove the service(s)
     -f - Start/Remove just a specific service
+    -s - Deploy the stack in swarm mode
     -d - Debug mode\n"
     exit 1
 }
@@ -47,17 +48,13 @@ EOF
     exit 0
 }
 
-init_homelab()
-{
-    # Create the networks if they don't exist
-    docker network inspect frontend >/dev/null 2>&1 || docker network create frontend
-    docker network inspect backend >/dev/null 2>&1 || docker network create backend
-}
-
 main()
 {
-    init_homelab
+    # Initialize the homelab networks if they don't exist
+    docker network inspect frontend >/dev/null 2>&1 || docker network create frontend
+    docker network inspect backend >/dev/null 2>&1 || docker network create backend
     
+    # Find all docker-compose.yaml files and if a specific service is requested, filter the results
     local DOCKER_FILES=$(find -maxdepth 2 -name "docker-compose.yaml" -type f)
     if [ ! -z "$SERVICES" ];
     then
@@ -70,35 +67,82 @@ main()
     for file in $DOCKER_FILES;
     do
         local SERVICE_DIRECTORY=$(dirname $file)
-
-        # Merge the env files
-        cat ./.env > ./.env_merged
-        echo "" >> ./.env_merged
-        [ -f "$SERVICE_DIRECTORY/.env" ] && cat $SERVICE_DIRECTORY/.env >> ./.env_merged
+        if ls $SERVICE_DIRECTORY/.env.compose &> /dev/null; 
+        then
+            # .env.compose file exists, use it for processing the docker compose file
+            ADDITIONAL_ENV_FILE="--env-file $SERVICE_DIRECTORY/.env.compose"
+        fi
 
         if [ ! -z "$REMOVE" ]; 
         then
-           $DOCKER_COMPOSE_CMD -f $file --env-file ./.env_merged down
+            # Remove the service
+            $DOCKER_COMPOSE_CMD -f $file --env-file $ADDITIONAL_ENV_FILE .env down
+           
         else
-            $DOCKER_COMPOSE_CMD -f $file --env-file ./.env_merged pull
-            $DOCKER_COMPOSE_CMD -f $file --env-file ./.env_merged up -d
+            # Start the service
+            $DOCKER_COMPOSE_CMD -f $file --env-file $ADDITIONAL_ENV_FILE .env pull
+            $DOCKER_COMPOSE_CMD -f $file --env-file $ADDITIONAL_ENV_FILE .env up -d
         fi
         echo "---------------------------------------------------"
+    done
+}
 
-        [ -z "$DEBUG" ] && rm ./.env_merged
+main_swarm()
+{
+    # Find all docker-compose.yaml files and if a specific service is requested, filter the results
+    docker network inspect frontend-swarm >/dev/null 2>&1 || docker network create frontend-swarm --driver=overlay --attachable
+    docker network inspect backend-swarm >/dev/null 2>&1 || docker network create backend-swarm --driver=overlay
+    export HOSTNAME=$(hostname)
+
+    local DOCKER_FILES=$(find -maxdepth 2 -name "docker-compose-swarm.yaml" -type f)
+    if [ ! -z "$SERVICES" ];
+    then
+        DOCKER_FILES=$(echo "$DOCKER_FILES" | grep -E "/($SERVICES)/docker-compose-swarm.yaml$")
+    fi
+
+    echo "Services: "
+
+    for file in $DOCKER_FILES;
+    do
+        local SERVICE_DIRECTORY=$(dirname $file)
+        local SERVICE_NAME=$(basename $SERVICE_DIRECTORY)
+
+        if ls $SERVICE_DIRECTORY/.env.compose &> /dev/null; 
+        then
+            # .env.compose file exists, use it for processing the docker compose file
+            ADDITIONAL_ENV_FILE="--env-file $SERVICE_DIRECTORY/.env.compose"
+        fi
+
+        if [ ! -z "$REMOVE" ]; 
+        then
+            # Remove the service
+            docker stack rm $SERVICE_NAME
+           
+        else
+            # Substitute environment variables from both .env and .env.compose and get the final compose file
+            docker compose -f $file --env-file .env $ADDITIONAL_ENV_FILE config > docker-compose-merged.yaml
+            
+            # Start the service
+            $DOCKER_COMPOSE_CMD -f docker-compose-merged.yaml --env-file .env $ADDITIONAL_ENV_FILE pull
+            docker stack deploy -c docker-compose-merged.yaml $SERVICE_NAME
+           
+        fi
+        echo "---------------------------------------------------"
     done
 }
 
 SERVICES=""
 REMOVE=""
 DEBUG=""
-while getopts "c:f:rd" arg;
+SWARM=""
+while getopts "c:f:rds" arg;
 do
     case $arg in
         c) create_new_service $OPTARG ;;
         f) SERVICES="$SERVICES|$OPTARG" ;;
         r) REMOVE="true" ;;
         d) DEBUG="true" ;;
+        s) SWARM="true" ;;
         *) usage
     esac
 done
@@ -109,4 +153,9 @@ then
     DOCKER_COMPOSE_CMD="docker compose"
 fi
 
+if [ ! -z "$SWARM" ];
+then
+    main_swarm
+    exit 0
+fi
 main
