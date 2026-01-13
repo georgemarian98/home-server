@@ -13,13 +13,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
-      - traefik-certs:/etc/traefik/certs/
       - ./config/middlewares.yaml:/etc/traefik/conf/middlewares.yaml
       - ./config/routers.yaml:/etc/traefik/conf/routers.yaml
       - ./config/services.yaml:/etc/traefik/conf/services.yaml
-    environment:
-      - TZ=${TIMEZONE}
-      - CF_DNS_API_TOKEN
+      - traefik-certs:/etc/traefik/certs/
+    env_file: .env
     networks:
       - frontend
 

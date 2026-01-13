@@ -5,10 +5,7 @@ services:
     container_name: obsidian
     restart: 'unless-stopped'
     pull_policy: always
-    environment:
-      - PUID=${USER_ID}
-      - PGID=${GROUP_ID}
-      - TZ=${TIMEZONE}
+    env_file: .env
     volumes:
       - ${CONFIG_PATH}/obsidian/config:/config
     # Port will be proxied by traefik, so no need to expose it here

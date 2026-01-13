@@ -20,9 +20,7 @@ services:
         target: /etc/traefik/files/routers.yaml
       - source: traefik-services
         target: /etc/traefik/files/services.yaml
-    environment:
-      - TZ=${TIMEZONE}
-      - CF_DNS_API_TOKEN
+    env_file: .env
     networks:
       - frontend-swarm
     deploy:
