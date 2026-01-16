@@ -120,7 +120,7 @@ main_swarm()
            
         else
             # Substitute environment variables from both .env and .env.compose and get the final compose file
-            docker compose -f $file --env-file .env $ADDITIONAL_ENV_FILE config > docker-compose-merged.yaml
+            docker compose -f $file --env-file .env $ADDITIONAL_ENV_FILE config | tail -n +2> docker-compose-merged.yaml
             
             # Start the service
             $DOCKER_COMPOSE_CMD -f docker-compose-merged.yaml --env-file .env $ADDITIONAL_ENV_FILE pull
