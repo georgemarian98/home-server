@@ -15,7 +15,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     env_file: .env
     networks:
-      - frontend
+      - frontend-swarm
     labels:
       - "traefik.http.routers.glance.rule=Host(`glance.rlgland.site`)"
       - "traefik.http.routers.glance.entrypoints=websecure"
@@ -23,5 +23,5 @@ services:
       - "traefik.http.services.glance.loadbalancer.server.port=8080"
 
 networks:
-  frontend:
+  frontend-swarm:
     external: true
