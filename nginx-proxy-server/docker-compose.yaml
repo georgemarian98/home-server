@@ -1,8 +1,8 @@
 
 services:
   proxy-manager:
-    image: 'jc21/nginx-proxy-manager:latest'
-    container_name: 'nginx-proxy-manager'
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
     restart: unless-stopped
     pull_policy: always
     ports:
@@ -20,13 +20,17 @@ services:
 
       # Uncomment this if IPv6 is not enabled on your host
       # DISABLE_IPV6: 'true'
-
+    env_file: .env
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+      - ${CONFIG_PATH}/nginx-proxy-server:/data
+      - ${CONFIG_PATH}/nginx-proxy-server/letsencrypt:/etc/letsencrypt
     networks:
-      - frontend
+      - frontend-swarm
+    healthcheck:
+      test: ["CMD", "/usr/bin/check-health"]
+      interval: 10s
+      timeout: 3s 
 
 networks:
-  frontend:
+  frontend-swarm:
     external: true
