@@ -10,6 +10,18 @@ git clone --recursive https://github.com/georgemarian98/home-server.git
 ```
 
 Don't forget to set the variables in .env file(s).
+The .env file needs to contain the following variables:
+```
+USER_ID=1000
+GROUP_ID=1000
+TIMEZONE="Europe/Bucharest"
+
+# Folder that contains the qbittorrent downloads and jellyfin media
+ENTERTAINMENT_DIR=PATH
+
+# Folder that holds the configurations for docker services
+CONFIG_PATH=PATH
+```
 
 **Important**
 Containers will not expose any ports. All the external trafic will be handled thorough the proxy manager.

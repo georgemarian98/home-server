@@ -15,3 +15,9 @@ In the end you can start reverse proxy your services with the following labels t
 - "traefik.http.routers.obsidian.tls.certresolver=cloudflare"
 - "traefik.http.services.obsidian.loadbalancer.server.port=<EXPOSED_PORT>"
 ```
+
+The .env file needs to contain the following variables:
+```
+CF_DNS_API_TOKEN=API_TOKEN
+TZ=${TIMEZONE}
+```
