@@ -11,7 +11,7 @@ services:
       - PORT=5055 #optional
     volumes:
       - ./jellyseerr:/app/config
-    # Port will be proxied by nginx, so no need to expose it here
+    # Port will be proxied, so no need to expose it here
     # ports:
     #   - 5055:5055
     healthcheck:

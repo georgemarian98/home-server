@@ -3,7 +3,7 @@ services:
   portainer:
     image: portainer/portainer-ce:alpine
     command: -H unix:///var/run/docker.sock
-    # Port will be proxied by traefik, so no need to expose it here
+    # Port will be proxied, so no need to expose it here
     # ports:
     #   - "9000:9000"
     volumes:
