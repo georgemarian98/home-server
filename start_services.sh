@@ -75,12 +75,12 @@ main()
         if [ ! -z "$REMOVE" ]; 
         then
             # Remove the service
-            $DOCKER_COMPOSE_CMD -f $file --env-file $ADDITIONAL_ENV_FILE .env down
+            $DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE  down
            
         else
             # Start the service
-            $DOCKER_COMPOSE_CMD -f $file --env-file $ADDITIONAL_ENV_FILE .env pull
-            $DOCKER_COMPOSE_CMD -f $file --env-file $ADDITIONAL_ENV_FILE .env up -d
+            $DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE pull
+            $DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE up -d
         fi
         echo "---------------------------------------------------"
     done
