@@ -113,6 +113,9 @@
             - title: Portainer
               url: https://portainer.rlgland.site
               icon: di:portainer
+            - title: Jellyfin
+              url: https://jellyfin.rlgland.site
+              icon: di:jellyfin
             - title: Movie Backlog
               url: https://moviebacklog.rlgland.site
               icon: /assets/movie-backlog.jpg
