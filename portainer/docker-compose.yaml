@@ -13,7 +13,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     networks:
-      - frontend
+      - frontend-swarm
     labels:
       - "traefik.http.routers.portainer.rule=Host(`portainer.rlgland.site`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
@@ -21,7 +21,7 @@ services:
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 
 networks:
-  frontend:
+  frontend-swarm:
     external: true
 
 volumes:

@@ -14,8 +14,7 @@ usage()
 create_new_service()
 {
     local SERVICE_NAME=$1
-    ls $SERVICE_NAME &> /dev/null
-    if [ $? -eq 0 ];
+    if ls $SERVICE_NAME &> /dev/null;
     then
         echo "The service '$SERVICE_NAME' already exists"
         exit 1
