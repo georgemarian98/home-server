@@ -6,7 +6,7 @@ services:
     command: -H unix:///var/run/docker.sock
     restart: unless-stopped
     pull_policy: always
-    # Port will be proxied by traefik, so no need to expose it here
+    # Port will be proxied, so no need to expose it here
     # ports:
     #   - "9000:9000"
     volumes:

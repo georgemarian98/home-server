@@ -6,7 +6,7 @@ services:
     image: ghcr.io/hotio/prowlarr:latest
     restart: unless-stopped    
     pull_policy: always
-    # Port will be proxied by nginx, so no need to expose it here
+    # Port will be proxied, so no need to expose it here
     # ports:
     #   - 9696:9696 
     environment:

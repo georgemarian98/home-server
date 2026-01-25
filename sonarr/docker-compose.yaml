@@ -6,7 +6,7 @@ services:
     image: ghcr.io/hotio/sonarr:latest
     restart: unless-stopped    
     pull_policy: always
-    # Port will be proxied by nginx, so no need to expose it here
+    # Port will be proxied, so no need to expose it here
     # ports:
     #   - 8989:8989 
     environment:
