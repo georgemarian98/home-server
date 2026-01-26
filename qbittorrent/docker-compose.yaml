@@ -1,20 +1,16 @@
 
 services:
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent
     container_name: qbittorrent
-    restart: 'unless-stopped'
+    restart: unless-stopped
     pull_policy: always
-    environment:
-      - PUID=${USER_ID}
-      - PGID=${GROUP_ID}
-      - TZ=${TIMEZONE}
-      - WEBUI_PORT=8100
-    # Port will be proxied by nginx, so no need to expose it here
+    env_file: .env
+    # Port will be proxied, so no need to expose it here
     # ports:
     #   - 8100:8100
     volumes:
-      - ./qbittorrent:/config
+      - ${CONFIG_PATH}/qbittorrent:/config
       - ${DOWNLOAD_DIR}:/data
     healthcheck:
       test: ping -c 1 www.google.com || exit 1
@@ -23,8 +19,13 @@ services:
       start_period: 20s
       timeout: 10s
     networks:
-      - frontend
+      - frontend-swarm
+    labels:
+      - "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.rlgland.site`)"
+      - "traefik.http.routers.qbittorrent.entrypoints=websecure"
+      - "traefik.http.routers.qbittorrent.tls.certresolver=cloudflare"
+      - "traefik.http.services.qbittorrent.loadbalancer.server.port=8100"
 
 networks:
-  frontend:
+  frontend-swarm:
     external: true
