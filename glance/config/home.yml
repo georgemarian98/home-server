@@ -107,9 +107,9 @@
             - title: TrueNAS
               url: https://truenas.rlgland.site
               icon: di:truenas
-            # - title: RaspberryPI
-            #   url: http://192.168.101.20
-            #   icon: /assets/raspberry-pi.png
+            - title: Nginx Proxy Manager
+              url: https://proxy.rlgland.site
+              icon: di:nginx
             - title: Portainer
               url: https://portainer.rlgland.site
               icon: di:portainer
@@ -119,6 +119,9 @@
             - title: Movie Backlog
               url: https://moviebacklog.rlgland.site
               icon: /assets/movie-backlog.jpg
+            - title: QBittorrent
+              url: https://qbittorrent.rlgland.site
+              icon: di:qbittorrent
 
         - type: group
           widgets:
