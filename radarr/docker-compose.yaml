@@ -9,18 +9,19 @@ services:
     # Port will be proxied, so no need to expose it here
     # ports:
     #   - 7878:7878
-    environment:
-      - PUID=${USER_ID}
-      - PGID=${GROUP_ID}
-      - TZ=${TIMEZONE}
-      - UMASK=002
+    env_file: .env
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./radarr:/config
+      - ${CONFIG_PATH}/radarr:/config
       - ${ENTERTAINMENT_DIR}:/data
     networks:
-      - frontend
+      - frontend-swarm
+    labels:
+      - "traefik.http.routers.radarr.rule=Host(`radarr.rlgland.site`)"
+      - "traefik.http.routers.radarr.entrypoints=websecure"
+      - "traefik.http.routers.radarr.tls.certresolver=cloudflare"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
 
 networks:
-  frontend:
+  frontend-swarm:
     external: true
