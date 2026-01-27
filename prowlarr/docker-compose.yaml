@@ -9,16 +9,17 @@ services:
     # Port will be proxied, so no need to expose it here
     # ports:
     #   - 9696:9696 
-    environment:
-      - PUID=${USER_ID}
-      - PGID=${GROUP_ID}
-      - TZ=${TIMEZONE}
-      - UMASK=002
+    env_file: .env
     volumes:
-      - ./prowlarr:/config
+      - ${CONFIG_PATH}/prowlarr:/config
     networks:
-      - frontend
+      - frontend-swarm
+    labels:
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.rlgland.site`)"
+      - "traefik.http.routers.prowlarr.entrypoints=websecure"
+      - "traefik.http.routers.prowlarr.tls.certresolver=cloudflare"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
 
 networks:
-  frontend:
+  frontend-swarm:
     external: true
