@@ -122,6 +122,9 @@
             - title: QBittorrent
               url: https://qbittorrent.rlgland.site
               icon: di:qbittorrent
+            - title: Prowlarr
+              url: https://prowlarr.rlgland.site
+              icon: di:prowlarr
 
         - type: group
           widgets:
