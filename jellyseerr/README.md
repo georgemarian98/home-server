@@ -5,3 +5,10 @@ You request something through Jellyseerr and it will send that media request dow
 Basically it merges the two functionalities together and it has pretty cool media discovery.
 
 [Repo](https://github.com/fallenbagel/jellyseerr)
+
+The .env file needs to contain the following variables:
+```
+LOG_LEVEL=debug
+TZ=${TIMEZONE}
+PORT=5055 # optional
+```

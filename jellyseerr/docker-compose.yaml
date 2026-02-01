@@ -3,17 +3,14 @@ services:
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
-    restart: 'unless-stopped'
+    restart: unless-stopped
     pull_policy: always
-    environment:
-      - LOG_LEVEL=debug
-      - TZ=${TIMEZONE}
-      - PORT=5055 #optional
-    volumes:
-      - ./jellyseerr:/app/config
     # Port will be proxied, so no need to expose it here
     # ports:
     #   - 5055:5055
+    env_file: .env
+    volumes:
+      - ${CONFIG_PATH}/jellyseerr:/app/config
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
       start_period: 20s
@@ -21,8 +18,13 @@ services:
       interval: 15s
       retries: 3
     networks:
-      - frontend
+      - frontend-swarm
+    labels:
+      - "traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.rlgland.site`)"
+      - "traefik.http.routers.jellyseerr.entrypoints=websecure"
+      - "traefik.http.routers.jellyseerr.tls.certresolver=cloudflare"
+      - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
 
 networks:
-  frontend:
+  frontend-swarm:
     external: true
