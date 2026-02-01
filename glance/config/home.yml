@@ -128,6 +128,9 @@
             - title: Radarr
               url: https://radarr.rlgland.site
               icon: di:radarr
+            - title: Sonarr
+              url: https://sonarr.rlgland.site
+              icon: di:sonarr
 
         - type: group
           widgets:
