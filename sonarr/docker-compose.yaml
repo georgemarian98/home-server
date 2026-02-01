@@ -9,17 +9,18 @@ services:
     # Port will be proxied, so no need to expose it here
     # ports:
     #   - 8989:8989 
-    environment:
-      - PUID=${USER_ID}
-      - PGID=${GROUP_ID}
-      - TZ=${TIMEZONE}
-      - UMASK=002
+    env_file: .env
     volumes:
-      - ./sonarr:/config
+      - ${CONFIG_PATH}/sonarr:/config
       - ${ENTERTAINMENT_DIR}:/data
     networks:
-      - frontend
+      - frontend-swarm
+    labels:
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.rlgland.site`)"
+      - "traefik.http.routers.sonarr.entrypoints=websecure"
+      - "traefik.http.routers.sonarr.tls.certresolver=cloudflare"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
 
 networks:
-  frontend:
+  frontend-swarm:
     external: true
