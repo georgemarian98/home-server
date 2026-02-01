@@ -131,6 +131,9 @@
             - title: Sonarr
               url: https://sonarr.rlgland.site
               icon: di:sonarr
+            - title: Jellyseerr
+              url: https://jellyseerr.rlgland.site
+              icon: di:jellyseerr
 
         - type: group
           widgets:
