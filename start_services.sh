@@ -14,8 +14,7 @@ usage()
 create_new_service()
 {
     local SERVICE_NAME=$1
-    if ls $SERVICE_NAME &> /dev/null;
-    then
+    if [[ -f $SERVICE_NAME ]]; then
         echo "The service '$SERVICE_NAME' already exists"
         exit 1
     fi
@@ -66,8 +65,7 @@ main()
     for file in $DOCKER_FILES;
     do
         local SERVICE_DIRECTORY=$(dirname $file)
-        if ls $SERVICE_DIRECTORY/.env.compose &> /dev/null; 
-        then
+        if [[ -f $SERVICE_DIRECTORY/.env.compose ]]; then
             # .env.compose file exists, use it for processing the docker compose file
             ADDITIONAL_ENV_FILE="--env-file $SERVICE_DIRECTORY/.env.compose"
         fi
@@ -106,8 +104,7 @@ main_swarm()
         local SERVICE_DIRECTORY=$(dirname $file)
         local SERVICE_NAME=$(basename $SERVICE_DIRECTORY)
 
-        if ls $SERVICE_DIRECTORY/.env.compose &> /dev/null; 
-        then
+        if [[ -f $SERVICE_DIRECTORY/.env.compose ]]; then
             # .env.compose file exists, use it for processing the docker compose file
             ADDITIONAL_ENV_FILE="--env-file $SERVICE_DIRECTORY/.env.compose"
         fi
