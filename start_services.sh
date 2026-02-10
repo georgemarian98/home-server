@@ -18,6 +18,7 @@ create_new_service()
         echo "The service '$SERVICE_NAME' already exists"
         exit 1
     fi
+    
     mkdir ./$SERVICE_NAME
     printf "# ${SERVICE_NAME^}\n" > ./$SERVICE_NAME/README.md
     
@@ -42,7 +43,6 @@ networks:
     external: true
 EOF
 
-    touch ./$SERVICE_NAME/.gitignore
     exit 0
 }
 
