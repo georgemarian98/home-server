@@ -134,6 +134,9 @@
             - title: Jellyseerr
               url: https://jellyseerr.rlgland.site
               icon: di:jellyseerr
+            - title: AdGuard Home
+              url: https://adguardhome.rlgland.site
+              icon: di:adguard-home
 
         - type: group
           widgets:
@@ -149,11 +152,11 @@
                     #   hide: false
 
             - type: dns-stats
-              service: pihole-v6
-              url: https://${PIHOLE_ADDRESS}
-              password: ${PIHOLE_PASS}
+              service: adguard
+              url: https://adguardhome.rlgland.site/
+              username: admin
+              password: ${ADGUARD_PASS}
               hour-format: 24h
-              allow-insecure: true
 
         - type: videos
           title: YouTube

@@ -1,0 +1,33 @@
+
+services:
+  adguardhome:
+    image: adguard/adguardhome # Change to the service image
+    container_name: adguardhome
+    restart: unless-stopped    
+    pull_policy: always
+    ports:
+      - 53:53/tcp # plain dns over tcp
+      - 53:53/udp # plain dns over udp
+      - 443:443/udp
+      - 853:853/tcp
+      # - 3000:3000/tcp # initial setup web interface
+      - 5443:5443/tcp
+      - 5443:5443/udp
+    volumes:
+      - ${CONFIG_PATH}/adguardhome/config:/opt/adguardhome/conf # app configuration
+      - ${CONFIG_PATH}/adguardhome/work:/opt/adguardhome/work # app working directory
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - NET_BIND_SERVICE
+    networks:
+      - frontend-swarm
+    labels:
+      - "traefik.http.routers.adguardhome.rule=Host(`adguardhome.rlgland.site`)"
+      - "traefik.http.routers.adguardhome.entrypoints=websecure"
+      - "traefik.http.routers.adguardhome.tls.certresolver=cloudflare"
+      - "traefik.http.services.adguardhome.loadbalancer.server.port=80" # Change to the internal port of the service
+
+networks:
+  frontend-swarm:
+    external: true
