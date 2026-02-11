@@ -137,7 +137,9 @@
             - title: AdGuard Home
               url: https://adguardhome.rlgland.site
               icon: di:adguard-home
-
+            - title: Immich
+              url: https://immich.rlgland.site
+              icon: di:immich
         - type: group
           widgets:
             - type: server-stats
