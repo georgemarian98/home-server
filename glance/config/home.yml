@@ -99,7 +99,7 @@
 
         - type: monitor
           cache: 1m
-          title: Services
+          title: Infrastructure
           sites:
             - title: Proxmox VE
               url: https://proxmox.rlgland.site
@@ -107,12 +107,25 @@
             - title: TrueNAS
               url: https://truenas.rlgland.site
               icon: di:truenas
+
+        - type: monitor
+          cache: 1m
+          title: Tools
+          sites:
             - title: Nginx Proxy Manager
               url: https://proxy.rlgland.site
               icon: di:nginx
             - title: Portainer
               url: https://portainer.rlgland.site
               icon: di:portainer
+            - title: AdGuard Home
+              url: https://adguardhome.rlgland.site
+              icon: di:adguard-home
+
+        - type: monitor
+          cache: 1m
+          title: Media
+          sites:
             - title: Jellyfin
               url: https://jellyfin.rlgland.site
               icon: di:jellyfin
@@ -134,12 +147,15 @@
             - title: Jellyseerr
               url: https://jellyseerr.rlgland.site
               icon: di:jellyseerr
-            - title: AdGuard Home
-              url: https://adguardhome.rlgland.site
-              icon: di:adguard-home
+
+        - type: monitor
+          cache: 1m
+          title: Photos
+          sites:
             - title: Immich
               url: https://immich.rlgland.site
               icon: di:immich
+              
         - type: group
           widgets:
             - type: server-stats
