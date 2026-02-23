@@ -112,41 +112,41 @@
           cache: 1m
           title: Tools
           sites:
+            - title: AdGuard Home
+              url: https://adguardhome.rlgland.site
+              icon: di:adguard-home
             - title: Nginx Proxy Manager
               url: https://proxy.rlgland.site
               icon: di:nginx
             - title: Portainer
               url: https://portainer.rlgland.site
               icon: di:portainer
-            - title: AdGuard Home
-              url: https://adguardhome.rlgland.site
-              icon: di:adguard-home
 
         - type: monitor
           cache: 1m
           title: Media
           sites:
-            - title: Jellyfin
-              url: https://jellyfin.rlgland.site
-              icon: di:jellyfin
             - title: Movie Backlog
               url: https://moviebacklog.rlgland.site
               icon: /assets/movie-backlog.jpg
+            - title: Jellyseerr
+              url: https://jellyseerr.rlgland.site
+              icon: di:jellyseerr
+            - title: Jellyfin
+              url: https://jellyfin.rlgland.site
+              icon: di:jellyfin
             - title: QBittorrent
               url: https://qbittorrent.rlgland.site
               icon: di:qbittorrent
-            - title: Prowlarr
-              url: https://prowlarr.rlgland.site
-              icon: di:prowlarr
             - title: Radarr
               url: https://radarr.rlgland.site
               icon: di:radarr
             - title: Sonarr
               url: https://sonarr.rlgland.site
               icon: di:sonarr
-            - title: Jellyseerr
-              url: https://jellyseerr.rlgland.site
-              icon: di:jellyseerr
+            - title: Prowlarr
+              url: https://prowlarr.rlgland.site
+              icon: di:prowlarr
 
         - type: monitor
           cache: 1m
@@ -166,8 +166,8 @@
                   mountpoints:
                     "/":
                       hide: false
-                    # "/nfs/homelab_share": # the nfs share needs to be mounted
-                    #   hide: false
+                    "/home/george/usb_share":
+                      hide: false
 
             - type: dns-stats
               service: adguard
@@ -180,10 +180,10 @@
           title: YouTube
           title-url: https://www.youtube.com
           channels:
-            - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
+            - UCwHwDuNd9lCdA7chyyquDXw # Bread on Penguins
             - UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
             - UCZNhwA1B5YqiY1nLzmM0ZRg # Christian Lempa
-            - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+            - UCJa14zeVf8p6clixTOIOVyQ # jakkuh
             - UC9x0AN7BWHpCDHSm9NiJFJQ # NetworkChuck
 
         - type: group
