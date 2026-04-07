@@ -1,0 +1,100 @@
+---
+
+# TODO backup to HDD
+
+- name: Synchronize PI docker volumes
+  hosts: pi
+  
+  tasks:
+    - name: Stop all containers
+      shell: |
+        {% raw %}
+        docker stop $(docker ps -a --format="{{.Names}}")
+        {% endraw %}
+    
+    - name: Sync directory
+      shell: sudo rsync -aAXv --delete {{ DOCKER_CONFIG_VOLUME_PATH }} {{ PI_DOCKER_CONFIG_VOLUME_DESTINATION_PATH}}
+      become: yes
+
+    - name: Start all containers
+      shell: |
+        {% raw %}
+        docker start $(docker ps -a --format="{{.Names}}")
+        {% endraw %}
+        
+- name: Synchronize debian docker volumes
+  hosts: homelab
+  
+  tasks:
+    - name: Stop all containers
+      shell: |
+        {% raw %}
+        docker stop $(docker ps -a --format="{{.Names}}")
+        {% endraw %}
+    
+    - name: Sync directory
+      shell: sudo rsync -aAXv --delete --exclude="jellyfin/" {{ DOCKER_CONFIG_VOLUME_PATH }} {{ DEBIAN_DOCKER_CONFIG_VOLUME_DESTINATION_PATH }}
+      become: yes
+
+    - name: Start all containers
+      shell: |
+        {% raw %}
+        docker start $(docker ps -a --format="{{.Names}}")
+        {% endraw %}
+
+- name: Backup servers
+  hosts: homelab
+
+  tasks:
+    - set_fact:
+        immich_dump_path: "{{ BACKUP_SOURCE_PATH }}/immich/immich-db-backup-{{ '%Y-%m-%d-%H-%M-%S' | strftime }}-v2.5.6-pg14.19_db_dump.sql.gz"
+
+    - name: Create SQL dump of immich database
+      shell: docker exec immich_postgres pg_dump -U postgres immich | gzip > {{ immich_dump_path }}
+
+    - name: Backup files to pi storage using restic
+      become: yes
+      shell: restic backup {{ BACKUP_SOURCE_PATH }} --exclude="entertainment" --exclude="immich/postgres" --tag auto_backup
+      environment:
+        RESTIC_REPOSITORY: "{{ RESTIC_REPOSITORY }}"
+        RESTIC_PASSWORD: "{{ RESTIC_PASSWORD }}"
+
+    - name: Prune snapshots
+      shell: restic forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 6
+      environment:
+        RESTIC_REPOSITORY: "{{ RESTIC_REPOSITORY }}"
+        RESTIC_PASSWORD: "{{ RESTIC_PASSWORD }}"
+
+    - name: Delete SQL dump file
+      file:
+        path: "{{ immich_dump_path }}"
+        state: absent
+  
+- name: Post-backup tasks
+  hosts: homelab
+  
+  tasks:
+    - set_fact:
+        backup_log_path: "~/backup_log_{{ '%Y_%m_%d' | strftime }}.txt"
+
+    - name: Check backup integrity
+      shell: restic check
+      environment:
+        RESTIC_REPOSITORY: "{{ RESTIC_REPOSITORY }}"
+        RESTIC_PASSWORD: "{{ RESTIC_PASSWORD }}"
+
+    - name: Create backup log
+      shell: restic snapshots --json --latest 2 | jq -r '.[].short_id' | xargs restic diff > {{ backup_log_path }}
+      environment:
+        RESTIC_REPOSITORY: "{{ RESTIC_REPOSITORY }}"
+        RESTIC_PASSWORD: "{{ RESTIC_PASSWORD }}"
+
+    - name: Sent backup log to pi
+      shell: scp {{ backup_log_path }} {{ PI_SSH_HOST}}:~/backup_logs
+
+    - name: Delete original backup log
+      file:
+        path: "{{ backup_log_path }}"
+        state: absent
+
+    

@@ -1,0 +1,13 @@
+[pi]
+192.168.101.20
+
+[homelab]
+192.168.101.30
+
+[pi:vars]
+ansible_ssh_user=george
+ansible_ssh_private_key_file=~/.ssh/id_ed25519
+
+[homelab:vars]
+ansible_ssh_user=autobackup
+ansible_ssh_private_key_file=~/.ssh/id_ed25519
