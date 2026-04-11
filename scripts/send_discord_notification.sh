@@ -80,7 +80,7 @@ done
 
 if [[ -z "${DISCORD_CURL_ARGS[@]}" || -z "$DISCORD_WEBHOOOK_TOKEN" ]];
 then
-    echo "No message or webhook token provided for the discord notification. Exiting..."
+    echo "[ERROR] No message or webhook token provided for the discord notification. Exiting..."
     exit 1
 fi
 

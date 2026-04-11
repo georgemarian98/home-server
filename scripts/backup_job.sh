@@ -14,24 +14,24 @@ backup_server()
 {
     # Wake up proxmox server if it's powered off
     if ! ping -c 1 "$PROXMOX_IP" &> /dev/null; then
-        echo "Proxmox server is offline. Sending wake-on-LAN packet..."
+        echo "[INFO] Proxmox server is offline. Sending wake-on-LAN packet..."
         wakeonlan "$PROXMOX_MAC_ADDRESS"
         
         COUNT=0
-        echo "Waiting for Proxmox server to wake up..."
+        echo "[INFO] Waiting for Proxmox server to wake up..."
         while ! ping -c 1 "$PROXMOX_IP" &> /dev/null && ! ping -c 1 "$DEBIAN_IP" &> /dev/null; do
             sleep 5
             ((COUNT++))
             if [[ $COUNT -ge 60 ]]; then
-                echo "Timeout waiting for servers."
+                echo "[ERROR] Timeout waiting for servers."
                 exit 1
             fi
         done
-        echo "Proxmox server is online."
+        echo "[INFO] Proxmox server is online."
     fi
 
     while docker node ls 2>&1 | grep "Error response from daemon" > /dev/null; do
-        echo "Waiting for Gondolin server to fully boot up and the docker containers to start..."
+        echo "[INFO] Waiting for Gondolin server to fully boot up and the docker containers to start..."
         sleep 60
     done
  
@@ -41,15 +41,15 @@ backup_server()
     mkdir -p "$BACKUP_LOG_DIR"
 
     # Keep the ansible log file only on failure
-    echo "Starting backup process..."
+    echo "[INFO] Starting backup process..."
     cd "$CURRENT_DIRECTORY/../ansible"
     if ansible-playbook backup.yaml > "$ANSIBLE_LOG_FILE" 2>&1; then
         rm "$ANSIBLE_LOG_FILE"
-        echo "Backup completed successfully."
+        echo "[INFO] Backup completed successfully."
     fi
 
     # Shutdown the proxmox server after the backup is done
-    echo "Shutting down Proxmox server..."
+    echo "[INFO] Shutting down Proxmox server..."
     ssh "$PROXMOX_SSH_USER@$PROXMOX_IP" "shutdown -P now"
 }
 
@@ -69,7 +69,7 @@ main()
     printf "Backup duration: ${DURATION}\nData added: ${DATA_ADDED}\nCurrent available space: ${AVAILABLE_SPACE}\n" > "${STATS_FILE}"
     
     # Send discord notification with the backup report
-    echo "Sending backup report to Discord..."
+    echo "[INFO] Sending backup report to Discord..."
     $CURRENT_DIRECTORY/send_discord_notification.sh -t "${DISCORD_WEBHOOK_TOKEN}" -b
 
     # Delete old backup logs
