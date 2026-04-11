@@ -62,19 +62,23 @@ main()
     AFTER_AVAILABLE_SPACE=$(du -sb  "$HOME/usb_share/backup" | awk '{print $1}')
 
     # Generate stats file
-    STATS_FILE="${BACKUP_LOG_DIR}/STATS_$(date +%Y_%m_%d).txt"
-    DURATION="$((($(date +%s) - $(date -d "today 04:00:00" +%s))/60))min"
-    DATA_ADDED=$(echo $(( $AFTER_AVAILABLE_SPACE - $BEFORE_AVAILABLE_SPACE )) | numfmt --to=iec --suffix=B)
-    AVAILABLE_SPACE="$(df -h "$HOME/usb_share" | tail -1 | awk '{print $4}')B"
-    printf "Backup duration: ${DURATION}\nData added: ${DATA_ADDED}\nCurrent available space: ${AVAILABLE_SPACE}\n" > "${STATS_FILE}"
+    [[ -f "$ANSIBLE_LOG_FILE" ]] && STATUS="Failed" || STATUS="Success"
     
+    cat << EOF >> "$BACKUP_LOG_DIR/backup_status_report_$(date +%Y_%m_%d).txt"
+Status: ${STATUS}
+
+Backup duration: $((($(date +%s) - $(date -d "today 04:00:00" +%s))/60))min
+Data added: $(echo $(( $AFTER_AVAILABLE_SPACE - $BEFORE_AVAILABLE_SPACE )) | numfmt --to=iec --suffix=B)
+Current pi available space: $(df -h "$HOME/usb_share" | tail -1 | awk '{print $4}')B
+EOF
+
     # Send discord notification with the backup report
     echo "[INFO] Sending backup report to Discord..."
     $CURRENT_DIRECTORY/send_discord_notification.sh -t "${DISCORD_WEBHOOK_TOKEN}" -b
 
     # Delete old backup logs
     find "$BACKUP_LOG_DIR" -type f -name "backup_log_*.txt" -mtime +7 -delete
-    rm "$STATS_FILE"
+    rm "$BACKUP_LOG_DIR/backup_status_report_$(date -d "yesterday" +%Y_%m_%d).txt"
 }
 
 main

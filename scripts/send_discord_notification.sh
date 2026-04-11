@@ -20,10 +20,15 @@ backup_report()
     local EMBED_COLOR=$GREEN_COLOR
     local PAYLOAD_FIELDS=()
 
-    local STATS_FILE="${BACKUP_LOG_DIR}/STATS_${CURRENT_DATE}.txt"
-    if [[ -f "$STATS_FILE" ]];
+    local REPORT_FILE="$BACKUP_LOG_DIR/backup_status_report_${CURRENT_DATE}.txt"
+    if [[ ! -f "$REPORT_FILE" ]]; then
+        REPORT_FILE="$BACKUP_LOG_DIR/backup_status_report_$(date -d "yesterday" +%Y_%m_%d).txt"
+    fi
+
+    if [[ -f "$REPORT_FILE" ]];
     then
-        PAYLOAD_FIELDS=('{"name": "Stats", "value": "'$(awk '{printf "%s\\n", $0}' ${STATS_FILE})'"}')
+        local STATS=$(tail -n +3 "$REPORT_FILE")
+        PAYLOAD_FIELDS=('{"name": "Stats", "value": "'$(echo "$STATS" | awk '{printf "%s\\n", $0}')'"}')
     fi
 
     local BACKUP_FILE="${BACKUP_LOG_DIR}/backup_log_${CURRENT_DATE}.txt"
