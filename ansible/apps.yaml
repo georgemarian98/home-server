@@ -1,0 +1,24 @@
+---
+
+- name: Install useful apps
+  hosts: all
+  become: yes
+
+  vars:
+    packages:
+      - git
+      - btop
+      - vim
+      - curl
+      - fastfetch
+      - nfs-common
+      - toilet # Display ascii art
+      - boxes # Draw ascii boxes around text
+
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages }}"
+        
