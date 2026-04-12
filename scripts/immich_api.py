@@ -5,7 +5,7 @@ import re
 from datetime import datetime
 
 
-API_KEY = 'i1DciJlouW7jfxfoCllUiHPoZQLqwt1JhrPrBSE'
+API_KEY = '' # Change this to your API key from Immich
 
 def update_asset(asset, new_date):
 
