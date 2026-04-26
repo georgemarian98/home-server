@@ -150,11 +150,14 @@
 
         - type: monitor
           cache: 1m
-          title: Photos
+          title: Personal management tools
           sites:
             - title: Immich
               url: https://immich.rlgland.site
               icon: di:immich
+            - title: Paperless
+              url: https://paperless.rlgland.site
+              icon: di:paperless-ngx
               
         - type: group
           widgets:
