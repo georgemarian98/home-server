@@ -12,7 +12,7 @@ usage()
 backup_report()
 {
     local CURRENT_DATE=$(date +"%Y_%m_%d")
-    local BACKUP_LOG_DIR="${HOME}/backup_logs"
+    local BACKUP_LOG_DIR="${HOME}/backup_share/logs"
     local RED_COLOR="15075593"
     local GREEN_COLOR="5763719"
 
@@ -38,7 +38,7 @@ backup_report()
         BACKUP_STATUS="Failed"
         EMBED_COLOR=$RED_COLOR
         CURL_FILE_ARGS=()
-        PAYLOAD_FIELDS+=('{"name": "Error", "value": "Backup log file not found. The backup process might have failed before it could create the log file and/or the ansible log."}')
+        PAYLOAD_FIELDS+=(', {"name": "Error", "value": "'Backup log file not found. The backup process might have failed before it could create the log file and/or the ansible log.'"}')
     fi
 
     local ANSIBLE_FILE="${BACKUP_LOG_DIR}/ansible_log_${CURRENT_DATE}.txt"
