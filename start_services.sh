@@ -5,8 +5,9 @@ usage()
     printf "Usage: $0 -c <NEW_SERVICE_NAME> -r -f <DOCKER_SERVICE_NAME> -d
     -c - Create a new folder with the README and the docker compose file for the new service
     -r - Remove the service(s)
-    -f - Start/Remove just a specific service
+    -f - Start/Remove just a specific service(s)
     -s - Deploy the stack in swarm mode
+    -l - Show the logs of the service(s)
     -d - Debug mode\n"
     exit 1
 }
@@ -23,6 +24,7 @@ create_new_service()
     printf "# ${SERVICE_NAME^}\n" > ./$SERVICE_NAME/README.md
     
     cat << EOF > ./$SERVICE_NAME/docker-compose.yaml
+---
 
 services:
   ${SERVICE_NAME}:
@@ -70,16 +72,25 @@ main()
             ADDITIONAL_ENV_FILE="--env-file $SERVICE_DIRECTORY/.env.compose"
         fi
 
-        if [ ! -z "$REMOVE" ]; 
-        then
-            # Remove the service
-            $DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE  down
-           
-        else
-            # Start the service
-            $DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE pull
-            $DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE up -d
-        fi
+        DOCKER_COMMAND="$DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE"
+
+        case $COMMAND in
+            "RUN") 
+                # Start the service
+                $DOCKER_COMMAND pull
+                $DOCKER_COMMAND up -d
+                ;;
+
+            "REMOVE") 
+                # Remove the service
+                $DOCKER_COMMAND  down
+                ;;
+
+            "LOGS") 
+                # Show the logs of the service
+                $DOCKER_COMMAND logs
+                ;;
+        esac
         echo "---------------------------------------------------"
     done
 }
@@ -109,36 +120,44 @@ main_swarm()
             ADDITIONAL_ENV_FILE="--env-file $SERVICE_DIRECTORY/.env.compose"
         fi
 
-        if [ ! -z "$REMOVE" ]; 
-        then
-            # Remove the service
-            docker stack rm $SERVICE_NAME
-           
-        else
-            # Substitute environment variables from both .env and .env.compose and get the final compose file
-            $DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE config | tail -n +2> docker-compose-merged.yaml
-            
-            # Start the service
-            $DOCKER_COMPOSE_CMD -f docker-compose-merged.yaml --env-file .env $ADDITIONAL_ENV_FILE pull
-            docker stack deploy -c docker-compose-merged.yaml $SERVICE_NAME
-           
-        fi
+        case $COMMAND in
+            "RUN") 
+                # Substitute environment variables from both .env and .env.compose and get the final compose file
+                $DOCKER_COMPOSE_CMD -f $file --env-file .env $ADDITIONAL_ENV_FILE config | tail -n +2> docker-compose-merged.yaml
+                
+                # Start the service
+                $DOCKER_COMPOSE_CMD -f docker-compose-merged.yaml --env-file .env $ADDITIONAL_ENV_FILE pull
+                docker stack deploy -c docker-compose-merged.yaml $SERVICE_NAME
+                ;;
+
+            "REMOVE") 
+                # Remove the swarm service
+                docker stack rm $SERVICE_NAME
+                ;;
+
+            "LOGS") 
+                # Show the logs of the service
+                docker service logs $SERVICE_NAME
+                ;;
+        esac
         echo "---------------------------------------------------"
     done
 }
 
+COMMAND="RUN"
 SERVICES=""
-REMOVE=""
 DEBUG=""
 SWARM=""
-while getopts "c:f:rds" arg;
+
+while getopts "c:f:rdsl" arg;
 do
     case $arg in
         c) create_new_service $OPTARG ;;
         f) SERVICES="$SERVICES|$OPTARG" ;;
-        r) REMOVE="true" ;;
+        r) COMMAND="REMOVE" ;;
         d) DEBUG="true" ;;
         s) SWARM="true" ;;
+        l) COMMAND="LOGS" ;;
         *) usage
     esac
 done
