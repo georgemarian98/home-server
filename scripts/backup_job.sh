@@ -35,7 +35,7 @@ backup_server()
         sleep 60
     done
  
-    BACKUP_LOG_DIR="$HOME/backup_logs"
+    BACKUP_LOG_DIR="$HOME/backup_share/logs"
     ANSIBLE_LOG_FILE="$BACKUP_LOG_DIR/ansible_log_$(date +%Y_%m_%d).txt"
 
     mkdir -p "$BACKUP_LOG_DIR"
@@ -70,6 +70,7 @@ Status: ${STATUS}
 Backup duration: $((($(date +%s) - $(date -d "today 04:00:00" +%s))/60))min
 Data added: $(echo $(( $AFTER_AVAILABLE_SPACE - $BEFORE_AVAILABLE_SPACE )) | numfmt --to=iec --suffix=B)
 Current pi available space: $(df -h "$HOME/usb_share" | tail -1 | awk '{print $4}')B
+Current backup available space: $(df -h "$HOME/backup_share" | tail -1 | awk '{print $4}')B
 EOF
 
     # Send discord notification with the backup report
