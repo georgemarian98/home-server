@@ -42,7 +42,7 @@ do
 done
 
 
-BACKUP_LOG_DIR="$HOME/backup_logs"
+BACKUP_LOG_DIR="$HOME/backup_share/logs"
 REPORT_FILE="$BACKUP_LOG_DIR/backup_status_report_$(date +%Y_%m_%d).txt"
 
 # Check if the backup status report file exists, if not check for yesterday's report file
