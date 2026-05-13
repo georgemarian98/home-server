@@ -1,4 +1,5 @@
 ---
+
 services:
   traefik:
     image: traefik:3.6
