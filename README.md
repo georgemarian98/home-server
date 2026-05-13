@@ -16,6 +16,8 @@ USER_ID=1000
 GROUP_ID=1000
 TIMEZONE="Europe/Bucharest"
 
+INTERN_PATH=PATH
+
 # Folder that contains the qbittorrent downloads and jellyfin media
 ENTERTAINMENT_DIR=PATH
 
