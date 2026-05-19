@@ -1,0 +1,28 @@
+---
+
+services:
+  dockhand:
+    image: fnsys/dockhand:latest
+    container_name: dockhand
+    restart: unless-stopped
+    pull_policy: always
+    # Port will be proxied, so no need to expose it here
+    # ports:
+    #   - 3000:3000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - dockhand_data:/app/data
+    networks:
+      - frontend-swarm
+    labels:
+      - "traefik.http.routers.dockhand.rule=Host(`dockhand.rlgland.site`)"
+      - "traefik.http.routers.dockhand.entrypoints=websecure"
+      - "traefik.http.routers.dockhand.tls.certresolver=cloudflare"
+      - "traefik.http.services.dockhand.loadbalancer.server.port=3000"
+
+networks:
+  frontend-swarm:
+    external: true
+
+volumes:
+  dockhand_data:

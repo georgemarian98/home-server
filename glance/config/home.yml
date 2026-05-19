@@ -118,9 +118,9 @@
             - title: Nginx Proxy Manager
               url: https://proxy.rlgland.site
               icon: di:nginx
-            - title: Portainer
-              url: https://portainer.rlgland.site
-              icon: di:portainer
+            - title: Dockhand
+              url: https://dockhand.rlgland.site
+              icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/dockhand.png
 
         - type: monitor
           cache: 1m
