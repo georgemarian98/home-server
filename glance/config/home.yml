@@ -158,6 +158,9 @@
             - title: Paperless
               url: https://paperless.rlgland.site
               icon: di:paperless-ngx
+            - title: Vaultwarden
+              url: https://vaultwarden.rlgland.site
+              icon: di:vaultwarden
               
         - type: group
           widgets:

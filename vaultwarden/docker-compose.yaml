@@ -1,0 +1,26 @@
+---
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped    
+    pull_policy: always
+    # Port will be proxied, so no need to expose it here
+    # ports:
+    #   - 127.0.0.1:8000:80
+    environment:
+      DOMAIN: "https://vaultwarden.rlgland.site"
+    volumes:
+      - ${CONFIG_PATH}/vaultwarden:/data
+    networks:
+      - frontend-swarm
+    labels:
+      - "traefik.http.routers.vaultwarden.rule=Host(`vaultwarden.rlgland.site`)"
+      - "traefik.http.routers.vaultwarden.entrypoints=websecure"
+      - "traefik.http.routers.vaultwarden.tls.certresolver=cloudflare"
+      - "traefik.http.services.vaultwarden.loadbalancer.server.port=80"
+
+networks:
+  frontend-swarm:
+    external: true
