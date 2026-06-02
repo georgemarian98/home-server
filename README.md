@@ -2,7 +2,7 @@
 
 A collection of services exclusively run in docker containers.
 
-Helper script `start_services.sh` for creating, starting/stopping containers.
+Helper script `start_services.sh` for creating, starting/stopping/managing containers.
 
 Clone the repository:
 ```
@@ -16,6 +16,7 @@ USER_ID=1000
 GROUP_ID=1000
 TIMEZONE="Europe/Bucharest"
 
+# Folder for storing internal data
 INTERN_PATH=PATH
 
 # Folder that contains the qbittorrent downloads and jellyfin media
@@ -26,15 +27,15 @@ CONFIG_PATH=PATH
 ```
 
 **Important**
-Containers will not expose any ports. All the external trafic will be handled thorough the proxy manager.
+Containers will not expose any ports. All the external trafic will be handled thorough the chosen proxy manager.
 
 # Script
-Script will help you start/stop the containers. This will work with docker compose files and with swarm as well.
+Script will help you start/stop/managing the containers. This will work with docker compose files and with swarm as well.
 In the root directory there is an .env file that has basic variables that are needed for many services.
 Each service has its dedicated folder with the following files:
 - A docker compose file named `docker-compose.yaml` (required)
 - A docker compose file for swarm mode named `docker-compose-swarm.yaml` (optional)
-- An .env file for nedded environment variables for the container (optional)
+- An .env file for needed environment variables for the container (optional)
 - An .env.compose file needed to parameterized the docker compose files (optional)
 - A README file for additional information
 
