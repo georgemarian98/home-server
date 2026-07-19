@@ -1,13 +1,7 @@
 ---
 
-- name: Synchronize docker volumes
-  hosts:
-    - pi
-    - homelab
-
-  vars:
-    docker_sync_destination: "{{ PI_DOCKER_CONFIG_VOLUME_DESTINATION_PATH if 'pi' in group_names else DEBIAN_DOCKER_CONFIG_VOLUME_DESTINATION_PATH }}"
-    rsync_exclude: "{{ '--exclude=jellyfin/' if 'homelab' in group_names else '' }}"
+- name: Synchronize pi docker volumes
+  hosts: pi
 
   tasks:
     - name: Stop all containers
@@ -19,7 +13,28 @@
     - name: Sync directory
       become: yes
       shell: |
-        sudo rsync -aAXv --delete {{ rsync_exclude }} {{ DOCKER_CONFIG_VOLUME_PATH }} {{ docker_sync_destination }}
+        sudo rsync -aAXv --delete {{ DOCKER_CONFIG_VOLUME_PATH }} {{ PI_DOCKER_CONFIG_VOLUME_DESTINATION_PATH }}
+
+    - name: Start all containers
+      shell: |
+        {% raw %}
+        docker start $(docker ps -a --format="{{.Names}}")
+        {% endraw %}
+
+- name: Synchronize debian docker volumes
+  hosts: homelab
+
+  tasks:
+    - name: Stop all containers
+      shell: |
+        {% raw %}
+        docker stop $(docker ps -a --format="{{.Names}}")
+        {% endraw %}
+
+    - name: Sync directory
+      become: yes
+      shell: |
+        sudo rsync -aAXv --delete --exclude="jellyfin/" {{ DOCKER_CONFIG_VOLUME_PATH }} {{ DEBIAN_DOCKER_CONFIG_VOLUME_DESTINATION_PATH }}
 
     - name: Start all containers
       shell: |
