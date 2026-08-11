@@ -46,6 +46,7 @@ services:
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db
+      PAPERLESS_DBENGINE: postgresql
       PAPERLESS_TIKA_ENABLED: 1
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
       PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
@@ -59,7 +60,7 @@ services:
       - "traefik.http.services.paperless.loadbalancer.server.port=8000"
   
   broker:
-    image: docker.io/library/redis:8
+    image: docker.io/valkey/valkey:9-alpine
     container_name: paperless-broker
     restart: unless-stopped
     volumes:
@@ -81,7 +82,7 @@ services:
       - backend
 
   gotenberg:
-    image: docker.io/gotenberg/gotenberg:8.25
+    image: docker.io/gotenberg/gotenberg:8.34
     container_name: paperless-gotenberg
     restart: unless-stopped
     # The gotenberg chromium route is used to convert .eml files. We do not
