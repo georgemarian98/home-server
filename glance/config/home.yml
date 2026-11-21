@@ -128,7 +128,7 @@
           sites:
             - title: Movie Backlog
               url: https://moviebacklog.rlgland.site
-              icon: /assets/movie-backlog.jpg
+              icon: /assets/movie-backlog-logo.png
             - title: Jellyseerr
               url: https://jellyseerr.rlgland.site
               icon: di:jellyseerr
@@ -144,9 +144,9 @@
             - title: Sonarr
               url: https://sonarr.rlgland.site
               icon: di:sonarr
-            - title: Prowlarr
-              url: https://prowlarr.rlgland.site
-              icon: di:prowlarr
+            # - title: Prowlarr
+            #   url: https://prowlarr.rlgland.site
+            #   icon: di:prowlarr
 
         - type: monitor
           cache: 1m
